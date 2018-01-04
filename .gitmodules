@@ -1,0 +1,3 @@
+[submodule "classes/system"]
+	path = classes/system
+	url = ssh://mcp-jenkins@gerrit.mcp.mirantis.net:29418/salt-models/reclass-system.git
