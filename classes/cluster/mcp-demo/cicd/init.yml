@@ -1,0 +1,56 @@
+
+parameters:
+  _param:
+    cicd_control_address: 10.167.4.89
+    cicd_control_node01_address: 10.167.4.91
+    cicd_control_node02_address: 10.167.4.92
+    cicd_control_node03_address: 10.167.4.93
+    cicd_control_hostname: cid
+    cicd_control_node01_hostname: cid01
+    cicd_control_node02_hostname: cid02
+    cicd_control_node03_hostname: cid03
+    # OpenLDAP
+    openldap_organisation: "${_param:cluster_name}"
+    openldap_dn: "dc=deploy-name,dc=local"
+    openldap_domain: "deploy-name.local"
+    openldap_admin_password: ojBhYW67GyjWxPo4
+    openldap_config_password: 2B9nntpSSqAd3JBC
+    openldap_readonly_password: fCEwbLHiMaed4pV9
+    # Jenkins
+    jenkins_admin_password: ${_param:openldap_admin_password}
+    jenkins_security_ldap_server: ${_param:cicd_control_address}
+    jenkins_security_ldap_root_dn: ${_param:openldap_dn}
+    jenkins_security_ldap_manager_dn: "cn=admin,${_param:openldap_dn}"
+    jenkins_security_ldap_manager_password: ${_param:openldap_admin_password}
+    # Gerrit
+    gerrit_admin_password: ${_param:openldap_admin_password}
+
+    # Aptly
+    aptly_gpg_keypair_id: none
+    aptly_gpg_passphrase: none
+    aptly_server_secure: false
+    aptly_gpg_private_key: none
+    aptly_gpg_public_key: none
+  linux:
+    network:
+      host:
+        ci:
+          address: ${_param:cicd_control_address}
+          names:
+          - ${_param:cicd_control_hostname}
+          - ${_param:cicd_control_hostname}.${_param:cluster_domain}
+        ci01:
+          address: ${_param:cicd_control_node01_address}
+          names:
+          - ${_param:cicd_control_node01_hostname}
+          - ${_param:cicd_control_node01_hostname}.${_param:cluster_domain}
+        ci02:
+          address: ${_param:cicd_control_node02_address}
+          names:
+          - ${_param:cicd_control_node02_hostname}
+          - ${_param:cicd_control_node02_hostname}.${_param:cluster_domain}
+        ci03:
+          address: ${_param:cicd_control_node03_address}
+          names:
+          - ${_param:cicd_control_node03_hostname}
+          - ${_param:cicd_control_node03_hostname}.${_param:cluster_domain}

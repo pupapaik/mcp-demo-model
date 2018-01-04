@@ -1,0 +1,39 @@
+classes:
+- system.grafana.client
+- system.grafana.client.datasource.prometheus
+- system.docker.client
+- system.docker.swarm.stack.dashboard
+- system.docker.swarm.stack.monitoring
+- system.docker.swarm.stack.monitoring.remote_collector
+
+
+#- cluster.mcp-demo.infra
+#- cluster.mcp-demo.cicd.control
+
+- cluster.mcp-demo.infra
+parameters:
+  _param:
+    docker_image_alertmanager: docker-prod-local.artifactory.mirantis.com/openstack-docker/alertmanager:latest
+    docker_image_pushgateway: docker-prod-local.artifactory.mirantis.com/openstack-docker/pushgateway:latest
+    docker_image_prometheus: docker-prod-local.artifactory.mirantis.com/openstack-docker/prometheus:latest
+    docker_image_remote_agent: docker-prod-local.artifactory.mirantis.com/openstack-docker/telegraf:latest
+    docker_image_remote_storage_adapter: docker-prod-local.artifactory.mirantis.com/openstack-docker/remote_storage_adapter:latest
+    docker_image_prometheus_relay: docker-prod-local.artifactory.mirantis.com/openstack-docker/prometheus_relay:latest
+    docker_image_grafana: grafana/grafana:4.5.2
+    # Grafana client parameters
+    grafana_address: ${_param:stacklight_monitor_address}
+    grafana_port: 15013
+    grafana_user: admin
+    grafana_password: ${_param:grafana_admin_password}
+    grafana_prometheus_address: ${_param:stacklight_monitor_address}
+    grafana_prometheus_port: 15016
+    stacklight_prometheus_port: 15010
+
+# Switch to generic ElasticSearch
+    #TODO vnaumov prepare normal fix
+    haproxy_elasticsearch_bind_host: ${_param:stacklight_log_address}
+    haproxy_elasticsearch_http_bind_port: 9200
+    elasticsearch_bind_host: ${_param:stacklight_log_address}
+    elasticsearch_binary_bind_port: 9300
+    elasticsearch_cluster_name: elasticsearch
+    rundeck_cis_elasticsearch_url: http://${_param:stacklight_log_address}:9200

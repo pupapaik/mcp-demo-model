@@ -1,0 +1,154 @@
+classes:
+- system.linux.system.repo.mcp.salt
+- system.linux.system.repo.mcp.extra
+- system.linux.system.repo.mcp.apt_mirantis.openstack
+- system.linux.system.repo.mcp.apt_mirantis.ubuntu
+- system.linux.system.repo.mcp.apt_mirantis.glusterfs
+- system.openssh.client.lab
+- system.glusterfs.client.cluster
+- system.glusterfs.client.volume.salt_pki
+- system.salt.master.pkg
+- system.salt.minion.ca.salt_master
+- system.salt.master.api
+- system.reclass.storage.salt
+- system.backupninja.client.single
+- system.xtrabackup.server.single
+- system.cassandra.backup.server.single
+- system.zookeeper.backup.server.single
+- system.reclass.storage.system.physical_control_cluster
+- system.reclass.storage.system.opencontrail_analytics_cluster
+- system.reclass.storage.system.opencontrail_control_cluster
+- system.reclass.storage.system.openstack_control_cluster
+- system.reclass.storage.system.openstack_proxy_cluster
+- system.reclass.storage.system.openstack_database_cluster
+- system.reclass.storage.system.openstack_message_queue_cluster
+- system.reclass.storage.system.openstack_control_upgrade_single
+- system.reclass.storage.system.stacklight_log_cluster
+- system.reclass.storage.system.stacklight_telemetry_cluster
+- system.reclass.storage.system.stacklightv2_server_cluster
+- system.reclass.storage.system.oss_cluster
+- system.reclass.storage.system.cicd_control_cluster
+- cluster.mcp-demo.infra.maas
+- cluster.mcp-demo.infra
+parameters:
+  _param:
+    salt_master_base_environment: prd
+    reclass_data_repository: "https://github.com/pupapaik/mcp-demo-model.git"
+    reclass_data_revision: master
+    reclass_config_master: ${_param:infra_config_deploy_address}
+    single_address: ${_param:infra_config_address}
+    deploy_address: ${_param:infra_config_deploy_address}
+    linux_system_codename: xenial
+    salt_api_password_hash: "$6$CJedfJeR$k9QVqu8lslRaoshJM7AlP2QCmRtEmDuJbM6/XMonWh6Kbv98G1UCZpnXvy940aJzY0y/I9Dd.gDRLJCcIcUPL0"
+    salt_master_host: ${_param:infra_config_deploy_address}
+    backupninja_backup_host: ${_param:infra_kvm_node03_address}
+  linux:
+    network:
+      interface:
+        ens3:
+          enabled: true
+          type: eth
+          proto: static
+          address: ${_param:deploy_address}
+          netmask: ${_param:deploy_network_netmask}
+          gateway: ${_param:deploy_network_gateway}
+          name_servers:
+            - ${_param:dns_server01}
+            - ${_param:dns_server02}
+        ens4: ${_param:linux_single_interface}
+  salt:
+    master:
+      command_timeout: 600
+      user:
+        deploy:
+          permissions: ${_param:salt_master_api_permissions}
+      reactor:
+        reclass/minion/classify:
+        - salt://reclass/reactor/node_register.sls
+      backup: true
+    minion:
+      backup: true
+  reclass:
+    storage:
+      data_source:
+        engine: local
+      node:
+        infra_kvm_node01:
+          params:
+            keepalived_vip_priority: 100
+            linux_system_codename: xenial
+        infra_kvm_node02:
+          params:
+            keepalived_vip_priority: 101
+            linux_system_codename: xenial
+        infra_kvm_node03:
+          params:
+            keepalived_vip_priority: 102
+            linux_system_codename: xenial
+          classes:
+          - system.ceph.backup.server.single
+          - system.backupninja.server.single
+        stacklight_log_node01:
+          classes:
+          - system.elasticsearch.client.single
+          - system.kibana.client.single
+        opencontrail_control_node01:
+          classes:
+          - cluster.${_param:cluster_name}.opencontrail.control_init
+        openstack_control_node01:
+          params:
+            linux_system_codename: xenial
+          classes:
+          - cluster.${_param:cluster_name}.openstack.control_init
+        openstack_control_node02:
+          params:
+            linux_system_codename: xenial
+        openstack_control_node03:
+          params:
+            linux_system_codename: xenial
+        openstack_database_node01:
+          params:
+            linux_system_codename: xenial
+          classes:
+          - cluster.${_param:cluster_name}.openstack.database_init
+        openstack_database_node02:
+          params:
+            linux_system_codename: xenial
+        openstack_database_node03:
+          params:
+            linux_system_codename: xenial
+        openstack_message_queue_node01:
+          params:
+            linux_system_codename: xenial
+        openstack_message_queue_node02:
+          params:
+            linux_system_codename: xenial
+        openstack_message_queue_node03:
+          params:
+            linux_system_codename: xenial
+        openstack_proxy_node01:
+          params:
+            linux_system_codename: xenial
+        openstack_proxy_node02:
+          params:
+            linux_system_codename: xenial
+        openstack_compute_rack01:
+          name: ${_param:openstack_compute_rack01_hostname}<<count>>
+          domain: ${_param:cluster_domain}
+          classes:
+          - cluster.${_param:cluster_name}.openstack.compute
+          repeat:
+            count: 100
+            start: 1
+            digits: 3
+            params:
+              single_address:
+                value: ${_param:openstack_compute_rack01_single_subnet}.<<count>>
+                start: 101
+              tenant_address:
+                value: ${_param:openstack_compute_rack01_tenant_subnet}.<<count>>
+                start: 101
+          params:
+            salt_master_host: ${_param:reclass_config_master}
+            linux_system_codename: xenial
+

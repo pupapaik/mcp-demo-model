@@ -1,0 +1,10 @@
+classes:
+- cluster.mcp-demo.infra.config
+parameters:
+  _param:
+    linux_system_codename: xenial
+    reclass_data_revision: master
+  linux:
+    system:
+      name: cfg01
+      domain: deploy-name.local

@@ -1,0 +1,90 @@
+
+classes:
+  # Services
+  - system.docker.client
+  # Docker services
+  - system.docker.swarm.stack.docker
+  - system.docker.swarm.stack.gerrit
+  - system.docker.swarm.stack.jenkins
+  - system.docker.swarm.stack.ldap
+
+  # Jenkins
+  - system.jenkins.master.config
+  - system.jenkins.client
+  - system.jenkins.client.credential.gerrit
+  - system.jenkins.client.credential.salt
+  # Jobs
+  - system.jenkins.client.job.git-mirrors.downstream.pipelines
+  - system.jenkins.client.job.deploy.openstack
+  - system.jenkins.client.job.deploy.update
+  # Security
+  - system.jenkins.client.security.ldap
+  - system.jenkins.client.security.matrix
+  # Slaves
+  - system.jenkins.client.node
+  # OpenLDAP
+  - system.openldap.client
+  - system.openldap.client.people.admin
+
+  # Gerrit
+  - system.gerrit.client
+  - system.gerrit.client.project.ci
+
+  - system.docker.swarm.master
+
+  - cluster.mcp-demo.infra
+  - cluster.mcp-demo.cicd.control
+
+parameters:
+  _param:
+    # Jenkins
+    jenkins_slave_user: admin
+    jenkins_client_user: admin
+    jenkins_slave_password: ${_param:jenkins_admin_password}
+    jenkins_client_password: ${_param:jenkins_admin_password}
+    jenkins_admin_email: ${_param:admin_email}
+    aptly_api_port: 8080
+    aptly_public_port: 80
+    jenkins_admin_public_key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDPjLChGzaYENHIuYdZUUcjkHFmUroOUk9lb8yU5Cu+iIWo1JzyWubJMbhHgFsSQWzsiE1fd/+nifq2D9Dh1trPwPhjwsUzCck8tstcitFLf706D9qXK7WzRQisDh/HRvvnUW7b2Ch6SNI79Mahi5Z/1+WfdIPxpkzd70zKd0Y8TM1nLjKD2BzNCLZMFaPAieykcu9sq7xGdb5xdIfH0x/dnPfpfRubZcTJbdNQMdLIZ5dL3RNRQouk/3Cn9THPHhpdYGTCVQe3v7NpOLbFT4/wFWMw1qe9z42gcHoInBr/FPibc6WRq+QX7n9HYj+rvPkWcvnanjwJGIUGsdpvS/fd
+    jenkins_admin_private_key: |
+      -----BEGIN RSA PRIVATE KEY-----
+      MIIEpAIBAAKCAQEAz4ywoRs2mBDRyLmHWVFHI5BxZlK6DlJPZW/MlOQrvoiFqNSc
+      8lrmyTG4R4BbEkFs7IhNX3f/p4n6tg/Q4dbaz8D4Y8LFMwnJPLbLXIrRS3+9Og/a
+      lyu1s0UIrA4fx0b751Fu29goekjSO/TGoYuWf9fln3SD8aZM3e9MyndGPEzNZy4y
+      g9gczQi2TBWjwInspHLvbKu8RnW+cXSHx9Mf3Zz36X0bm2XEyW3TUDHSyGeXS90T
+      UUKLpP9wp/Uxzx4aXWBkwlUHt7+zaTi2xU+P8BVjMNanvc+NoHB6CJwa/xT4m3Ol
+      kavkF+5/R2I/q7z5FnL52p48CRiFBrHab0v33QIDAQABAoIBAQDK95D73DsFdt1Q
+      6G5+YEerdeQP5rLgsonGbxCoQoKs76GWO2XIdDDhbGgENHfbYHP+1ESmKhmvY/Xz
+      +X+Se6S8KsA9/wkOInHTmAdD1tVaee85Squ/zhUA3W/fomhdXwOVcUNyZu8etvwx
+      eeyNqo5hM2bxCubFeJYPK6fzD7V13PqJD5pfSrbGS4/OzGxbcRebeaXX6a2TSy3N
+      w1fr85yoZ7UA/mxHOLvkZi3ZAJPrV0Z3tuir0Iu58N74eYa5qccTyirlLqtg1/Ke
+      qLpscGTCpKdypxxKRr9PwjxA05NDyZkijc7c7MwUU0JeINVSMcdrQkA6r/mDZZy6
+      aQWNzbfZAoGBAO/NFfgS7Ln8ZwwD+9rBrVvT+TSgEz4nU18TO3mv9xyZuRdlJHHW
+      fdmuZjb6Tig8N2TmkG8/FAUy0HagfCZDWi6ENekxYrhff1zvMb7EVW9g54s1YH2U
+      Pr/28a/iDBie0wsXKFDJvJC29S9/lyCunQD3hYoHSM8SDlwdIR/ym0QLAoGBAN2R
+      36dzxGJzkavWiBDATcMmOM7F2uW3TytNL61wn9znL+JudZv/ebudp1xtu+0ohAH8
+      4XZK4ZI8SfWGsSMuEjE3a6DaNIrlGpvnlGvofPyChOu9wxnJsDV3UdQuJw1xZ+06
+      g6V05JvXJXZ49JvhixN+gaNx9z7K3YShnI1Oq3y3AoGBAKBpUIjiH/lKHqSrBY8Q
+      gCctZUcOzdCF/f9bni2IyIUZT/eWcQq1sPos77NXPXEs1uFoWrYQPBQ+KbUxJdty
+      sqDrUCTuJFuxhkFkwKIcNAqNiFZXHnTi9hbz2jkNvYm6tPJ2S0G/saQcv2dGspHq
+      PJyo92ud89aQ/Yog8keswrCBAoGAeb9NAKspDtvoAF8aVvIECKY48s1fEXifRPDd
+      sNTA0tYpxqbhcv13O3NOYgheCduIZbs5fBF7TypXjVUcgnMvReHo/vLHikaHT4F5
+      Wa3e97UUKqET0lizvT06NnfBt65H59+ONN09PLCEgkvGRN0y2VxbCZ92twcrn1Ra
+      PH8s1ZMCgYAHCHt+bHVkyXRrljnu7esuBshi9d/reXnkXPwelGqBrhu5hF5yWybe
+      Aw8z8maMCH37MNoOuqKJPtx45VeALoRmVtHI7oMzfeCtvd4FKfnrx6hh/42Xw1Sz
+      ogOeJhcBil9vrnqFnJIKifUpGVwi3cKIgj6FBPw6677Q7L4xqKlhqw==
+      -----END RSA PRIVATE KEY-----
+    # Jobs params
+    jenkins_gerrit_url: ssh://admin@${_param:haproxy_gerrit_bind_host}:${_param:haproxy_gerrit_ssh_bind_port}
+
+    # Gerrit
+    gerrit_admin_email: ${_param:admin_email}
+    gerrit_public_host: https://${_param:nginx_proxy_gerrit_server_site_host}:${_param:nginx_proxy_gerrit_server_site_port}
+    gerrit_admin_public_key: ${_param:jenkins_admin_public_key}
+    gerrit_admin_private_key: ${_param:jenkins_admin_private_key}
+    gerrit_auth_type: LDAP
+    gerrit_ldap_server: "ldap://${_param:cluster_vip_address}"
+    gerrit_ldap_bind_user: "cn=admin,${_param:openldap_dn}"
+    gerrit_ldap_bind_password: ${_param:openldap_admin_password}
+    gerrit_ldap_account_base: ou=people,${_param:openldap_dn}
+    gerrit_ldap_group_base: ou=groups,${_param:openldap_dn}
