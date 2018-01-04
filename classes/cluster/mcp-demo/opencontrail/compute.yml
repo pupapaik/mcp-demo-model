@@ -7,8 +7,26 @@ classes:
 parameters:
   _param:
     opencontrail_compute_address: ${_param:tenant_address}
-
   linux:
+    system:
+      user:
+        root:
+          enabled: true
+          name: root
+          home: /root
+  #         # Password is cloudlab, comment out, configure your SSH key bellow
+  #         # and disable password auth
+          password: $6$0Qqj.6l.$T9k9Onm9pIDo6ULABVBRNogyizG.9CnwQ4bvI4xH.AWeIGHbLyFU87ejMTtKvAAyd3dncRYbeUV.VbnXJU2u./
+
+      package:
+        linux-image-4.8.0-39-generic:
+          version: latest
+        linux-headers-4.8.0-39-generic:
+          version: latest
+        linux-image-extra-4.8.0-39-generic:
+          version: latest
+        linux-headers-4.8.0-39:
+          version: latest
     network:
       interface:
         eth1:

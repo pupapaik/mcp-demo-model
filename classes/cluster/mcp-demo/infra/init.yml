@@ -2,7 +2,7 @@
 classes:
 - system.linux.system.single
 #- system.openssh.server.team.lab
-#- system.openssh.server.team.presales
+- system.openssh.server.team.tcpcloud
 #- system.openssh.server.team.services
 #- system.openssh.server.team.networking
 #- system.openssh.server.team.stacklight
@@ -24,7 +24,7 @@ parameters:
     linux_system_user_sudo: true
 
     apt_mk_version: stable
-    jenkins_pipelines_branch: refs/tags/stable
+
     salt_control_trusty_image: http://images.mirantis.com/ubuntu-14-04-x64-mcp${_param:apt_mk_version}.qcow2
     salt_control_xenial_image: http://images.mirantis.com/ubuntu-16-04-x64-mcp${_param:apt_mk_version}.qcow2
     infra_config_hostname: cfg01
@@ -46,7 +46,7 @@ parameters:
     control_vlan: 2428
     tenant_vlan: 2429
 
-    deploy_network_netmask: 255.255.255.0
+    deploy_network_netmask: 255.255.255.192
     deploy_network_gateway: 172.17.32.193
 
     # MaaS parameters

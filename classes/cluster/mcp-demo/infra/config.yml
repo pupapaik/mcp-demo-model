@@ -74,6 +74,8 @@ parameters:
         engine: local
       node:
         infra_kvm_node01:
+          classes:
+          - cluster.mcp-demo.infra.kvm01
           params:
             keepalived_vip_priority: 100
             linux_system_codename: xenial

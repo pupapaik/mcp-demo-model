@@ -5,48 +5,44 @@ classes:
 - cluster.mcp-demo.infra
 parameters:
   maas:
+    cluster:
+      region:
+        host: ${_param:deploy_address}
     region:
       commissioning_scripts:
         00-maas-05-simplify-network-interfaces: /etc/maas/files/commisioning_scripts/00-maas-05-simplify-network-interfaces
       bind:
         host: ${_param:deploy_address}
-    cluster:
-      region:
-        host: ${_param:deploy_address}
-# linux:
-#   network:
-#     interface:
-#       primary_interface:
-#         enabled: true
-#         name: ens2
-#         type: eth
-#         proto: static
-#         netmask: ${_param:deploy_network_netmask}
-#         address: ${_param:single_address}
-#         gateway: ${_param:deploy_network_gateway}
-#         name_servers:
-#         - ${_param:dns_server01}
-#         - ${_param:dns_server02}
-### Sample MaaS Configuration
-#  maas:
-#    region:
-#      subnets:
-#        deploy_network:
-#          cidr: 172.17.44.0/24
-#          fabric: deploy_network
-#          gateway_ip: 172.17.44.1
-#          iprange:
-#            end: 172.17.44.200
-#            start: 172.17.44.92
-#      fabrics:
-#        deploy_network:
-#          description: Fabric for deploy_network
-#      machines:
-#        kvm02:
+      machines:
+        kvm02:
+          interface:
+            mac: 0c:c4:7a:42:47:e4
+          power_parameters:
+            power_address: 185.8.58.33
+            power_password: lkenfvHGedfklj
+            power_type: ipmi
+            power_user: engineer
+        kvm03:
+          interface:
+            mac: 0c:c4:7a:42:47:a2
+          power_parameters:
+            power_address: 185.8.58.31
+            power_password: lkenfvHGedfklj
+            power_type: ipmi
+            power_user: engineer
+#        kvm04:
 #          interface:
-#            mac: 00:25:90:eb:92:4a
+#            mac: 0c:c4:7a:17:97:a0
 #          power_parameters:
-#            power_address: ipmi_ip
-#            power_password: password
+#            power_address: 185.8.59.40
+#            power_password: 9Meh7jm4fsH
 #            power_type: ipmi
-#            power_user: engineer
+#            power_user: maas
+        cmp001:
+          interface:
+            mac: 0c:c4:7a:15:f8:f8
+          power_parameters:
+            power_address: 185.8.59.39
+            power_password: ceFu7buchooj
+            power_type: ipmi
+            power_user: mcp-qa

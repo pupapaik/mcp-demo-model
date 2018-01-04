@@ -8,9 +8,9 @@ classes:
 - system.postgresql.client.janitor_monkey
 
 # Elasticsearch
-- system.elasticsearch.client
-- system.elasticsearch.client.index.pushkin
-- system.elasticsearch.client.index.janitor_monkey
+#- system.elasticsearch.client
+#- system.elasticsearch.client.index.pushkin
+#- system.elasticsearch.client.index.janitor_monkey
 
 # DevOps Portal
 - service.devops_portal.config

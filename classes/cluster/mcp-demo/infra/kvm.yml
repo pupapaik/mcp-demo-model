@@ -32,16 +32,16 @@ parameters:
     cluster_node03_address: ${_param:infra_kvm_node03_address}
     keepalived_vip_interface: br_ctl
     keepalived_vip_virtual_router_id: 69
-    deploy_nic: eth0
-    primary_first_nic: eth1
-    primary_second_nic: eth2
+    deploy_nic: one5
+    primary_first_nic: one6
+    primary_second_nic: one1
   salt:
     control:
       size: #RAM 4096,8192,16384,32768,65536
       ##Default production sizing
         openstack.control:
           cpu: 8
-          ram: 32768
+          ram: 8768
           disk_profile: small
           net_profile: default
         openstack.database:
@@ -50,13 +50,13 @@ parameters:
           disk_profile: large
           net_profile: default
         openstack.message_queue:
-          cpu: 8
-          ram: 32768
+          cpu: 4
+          ram: 8768
           disk_profile: small
           net_profile: default
         openstack.proxy:
           cpu: 4
-          ram: 8192
+          ram: 4192
           disk_profile: small
           net_profile: default
         openstack.upgrade:
@@ -66,27 +66,27 @@ parameters:
           net_profile: default
         opencontrail.control:
           cpu: 8
-          ram: 32768
+          ram: 8768
           disk_profile: small
           net_profile: default
         opencontrail.analytics:
           cpu: 8
-          ram: 32768
+          ram: 8768
           disk_profile: large
           net_profile: default
         stacklight.log:
           cpu: 4
-          ram: 8192
+          ram: 4192
           disk_profile: xxlarge
           net_profile: default
         stacklight.server:
           cpu: 4
-          ram: 8192
+          ram: 4192
           disk_profile: small
           net_profile: default
         stacklight.telemetry:
           cpu: 4
-          ram: 8192
+          ram: 4192
           disk_profile: xxlarge
           net_profile: default
         cicd.control:
@@ -192,22 +192,23 @@ parameters:
           netmask: ${_param:control_network_netmask}
           use_interfaces:
           - bond0.${_param:control_vlan}
-  #   system:
-  #     package:
-  #       linux-image-4.8.0-39-generic:
-  #         version: latest
-  #       linux-headers-4.8.0-39-generic:
-  #         version: latest
-  #       linux-image-extra-4.8.0-39-generic:
-  #         version: latest
-  #       linux-headers-4.8.0-39:
-  #         version: latest
-  #     user:
-  #       root:
-  #         enabled: true
-  #         name: root
-  #         home: /root
+    system:
+      user:
+        root:
+          enabled: true
+          name: root
+          home: /root
   #         # Password is cloudlab, comment out, configure your SSH key bellow
   #         # and disable password auth
-  #         password: $6$0Qqj.6l.$T9k9Onm9pIDo6ULABVBRNogyizG.9CnwQ4bvI4xH.AWeIGHbLyFU87ejMTtKvAAyd3dncRYbeUV.VbnXJU2u./
+          password: $6$0Qqj.6l.$T9k9Onm9pIDo6ULABVBRNogyizG.9CnwQ4bvI4xH.AWeIGHbLyFU87ejMTtKvAAyd3dncRYbeUV.VbnXJU2u./
+
+      package:
+        linux-image-4.8.0-39-generic:
+          version: latest
+        linux-headers-4.8.0-39-generic:
+          version: latest
+        linux-image-extra-4.8.0-39-generic:
+          version: latest
+        linux-headers-4.8.0-39:
+          version: latest
 
