@@ -11,5 +11,10 @@ pipeline {
         mail(subject: 'pica', body: 'kokot', to: 'jpavlik@mirantis.com')
       }
     }
+    stage('') {
+      steps {
+        echo 'message'
+      }
+    }
   }
 }
